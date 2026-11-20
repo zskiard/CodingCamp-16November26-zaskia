@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body class="light-mode">
+
+    <!-- ======================================================
+         HEADER — Theme toggle sits in the top-right corner
+    ====================================================== -->
+    <header class="site-header">
+      <span class="header-title">Life Dashboard</span>
+      <button class="btn-theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+        🌙 Dark Mode
+      </button>
+    </header>
+
+    <!-- ======================================================
+         MAIN — All dashboard sections
+    ====================================================== -->
+    <main class="dashboard">
+
+      <!-- ------------------------------------------------
+           SECTION 1 · Greeting
+      ------------------------------------------------ -->
+      <section class="card greeting-section" aria-labelledby="greetingHeading">
+        <div class="greeting-time-block">
+          <p class="greeting-text" id="greetingText">Good Morning</p>
+          <h1 class="greeting-name" id="greetingName">Hello, Friend!</h1>
+          <p class="greeting-clock" id="greetingClock">00:00:00</p>
+          <p class="greeting-date" id="greetingDate">Monday, 1 January 2026</p>
+        </div>
+
+        <div class="greeting-name-form">
+          <label for="nameInput" class="form-label">Your name</label>
+          <div class="input-row">
+            <input
+              type="text"
+              id="nameInput"
+              class="input-field"
+              placeholder="Enter your name…"
+              maxlength="40"
+              aria-label="Enter your name"
+            />
+            <button class="btn btn-primary" id="saveNameBtn">Save</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------
+           SECTION 2 · Focus Timer
+      ------------------------------------------------ -->
+      <section class="card timer-section" aria-labelledby="timerHeading">
+        <h2 class="section-title" id="timerHeading">🍅 Focus Timer</h2>
+
+        <div class="timer-display" id="timerDisplay" aria-live="polite" aria-label="Timer display">
+          25:00
+        </div>
+
+        <div class="timer-controls">
+          <button class="btn btn-primary" id="timerStart" aria-label="Start timer">Start</button>
+          <button class="btn btn-secondary" id="timerStop" aria-label="Stop timer">Stop</button>
+          <button class="btn btn-ghost" id="timerReset" aria-label="Reset timer">Reset</button>
+        </div>
+      </section>
+
+      <!-- ------------------------------------------------
+           SECTION 3 · To-Do List
+      ------------------------------------------------ -->
+      <section class="card todo-section" aria-labelledby="todoHeading">
+        <h2 class="section-title" id="todoHeading">✅ To-Do List</h2>
+
+        <div class="input-row">
+          <input
+            type="text"
+            id="todoInput"
+            class="input-field"
+            placeholder="Add a new task…"
+            maxlength="100"
+            aria-label="New task input"
+          />
+          <button class="btn btn-primary" id="todoAddBtn" aria-label="Add task">Add</button>
+        </div>
+
+        <p class="duplicate-warning hidden" id="duplicateWarning" role="alert">
+          ⚠️ Task already exists!
+        </p>
+
+        <ul class="todo-list" id="todoList" aria-label="Task list">
+          <!-- Tasks are injected here by JavaScript -->
+        </ul>
+      </section>
+
+      <!-- ------------------------------------------------
+           SECTION 4 · Quick Links
+      ------------------------------------------------ -->
+      <section class="card links-section" aria-labelledby="linksHeading">
+        <h2 class="section-title" id="linksHeading">🔗 Quick Links</h2>
+
+        <div class="links-form">
+          <div class="input-row">
+            <input
+              type="text"
+              id="linkNameInput"
+              class="input-field"
+              placeholder="Site name (e.g. GitHub)"
+              maxlength="40"
+              aria-label="Website name"
+            />
+            <input
+              type="url"
+              id="linkUrlInput"
+              class="input-field"
+              placeholder="URL (e.g. https://github.com)"
+              aria-label="Website URL"
+            />
+          </div>
+          <button class="btn btn-primary links-add-btn" id="linkAddBtn" aria-label="Add link">
+            Add Link
+          </button>
+        </div>
+
+        <ul class="links-list" id="linksList" aria-label="Saved links">
+          <!-- Links are injected here by JavaScript -->
+        </ul>
+      </section>
+
+    </main>
+
+    <!-- ======================================================
+         FOOTER
+    ====================================================== -->
+    <footer class="site-footer">
+      <p>Life Dashboard &copy; 2026 · Built with ❤️ for CodingCamp</p>
+    </footer>
+
+    <!-- JavaScript — loaded last so the DOM is ready -->
+    <script src="js/script.js"></script>
+
+  </body>
+</html>

@@ -1,0 +1,727 @@
+/* =============================================================
+   LIFE DASHBOARD — style.css
+   Sections:
+   1. CSS Custom Properties (variables)
+   2. Reset & Base
+   3. Typography
+   4. Layout — Header, Main Grid, Footer
+   5. Card
+   6. Buttons
+   7. Inputs
+   8. Section: Greeting
+   9. Section: Focus Timer
+   10. Section: To-Do List
+   11. Section: Quick Links
+   12. Dark Mode overrides
+   13. Responsive (tablet & mobile)
+============================================================= */
+
+
+/* ─────────────────────────────────────────────────────────────
+   1. CSS CUSTOM PROPERTIES
+   All colours, spacing, radii, and shadows live here so
+   switching between light and dark mode only needs one class.
+───────────────────────────────────────────────────────────── */
+:root {
+  /* Brand gradient */
+  --gradient-start : #6a11cb;
+  --gradient-end   : #2575fc;
+
+  /* Light-mode surfaces */
+  --bg-page        : linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+  --bg-card        : #ffffff;
+  --bg-input       : #f4f6fb;
+  --bg-todo-item   : #f9faff;
+  --bg-todo-done   : #eef0ff;
+
+  /* Light-mode text */
+  --text-primary   : #1a1a2e;
+  --text-secondary : #5a5a7a;
+  --text-muted     : #9090aa;
+  --text-on-accent : #ffffff;
+
+  /* Accent */
+  --accent         : #6a11cb;
+  --accent-hover   : #5209a8;
+  --accent-light   : #ede8ff;
+
+  /* Secondary button */
+  --secondary      : #e0e4f5;
+  --secondary-hover: #cdd3ef;
+
+  /* Borders */
+  --border         : #e2e6f5;
+  --border-focus   : #6a11cb;
+
+  /* Shadows */
+  --shadow-card    : 0 4px 24px rgba(106, 17, 203, 0.10);
+  --shadow-btn     : 0 2px 8px  rgba(106, 17, 203, 0.20);
+
+  /* Sizing */
+  --radius-card    : 18px;
+  --radius-btn     : 10px;
+  --radius-input   : 10px;
+  --radius-pill    : 999px;
+
+  /* Spacing */
+  --gap            : 1.5rem;
+  --card-padding   : 1.75rem;
+
+  /* Timer */
+  --timer-size     : 7rem;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   2. RESET & BASE
+───────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing  : border-box;
+  margin      : 0;
+  padding     : 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family     : 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size       : 1rem;
+  line-height     : 1.6;
+  min-height      : 100vh;
+  background      : var(--bg-page);
+  color           : var(--text-primary);
+  transition      : background 0.35s ease, color 0.35s ease;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  color          : var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  cursor     : pointer;
+  font-family: inherit;
+}
+
+input {
+  font-family: inherit;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   3. TYPOGRAPHY HELPERS
+───────────────────────────────────────────────────────────── */
+.section-title {
+  font-size  : 1.1rem;
+  font-weight: 700;
+  color      : var(--text-primary);
+  margin-bottom: 1.1rem;
+  letter-spacing: 0.01em;
+}
+
+.form-label {
+  display    : block;
+  font-size  : 0.82rem;
+  font-weight: 600;
+  color      : var(--text-secondary);
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   4. LAYOUT — HEADER · MAIN GRID · FOOTER
+───────────────────────────────────────────────────────────── */
+
+/* Header */
+.site-header {
+  display        : flex;
+  align-items    : center;
+  justify-content: space-between;
+  padding        : 1rem 2rem;
+  position       : sticky;
+  top            : 0;
+  z-index        : 100;
+  background     : rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom  : 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.header-title {
+  font-size  : 1.1rem;
+  font-weight: 700;
+  color      : #fff;
+  letter-spacing: 0.04em;
+}
+
+/* Main dashboard grid */
+.dashboard {
+  display              : grid;
+  grid-template-columns: 1fr;
+  gap                  : var(--gap);
+  max-width            : 1100px;
+  margin               : 0 auto;
+  padding              : 2rem 1.5rem 3rem;
+}
+
+/*
+  Row layout:
+  Row 1 → Greeting (full width)
+  Row 2 → Timer | To-Do  (two equal columns)
+  Row 3 → Quick Links (full width)
+*/
+.greeting-section {
+  grid-column: 1 / -1;
+}
+
+.timer-section,
+.todo-section {
+  /* handled naturally by the two-column grid set in responsive block below */
+}
+
+.links-section {
+  grid-column: 1 / -1;
+}
+
+/* Footer */
+.site-footer {
+  text-align : center;
+  padding    : 1.25rem;
+  font-size  : 0.8rem;
+  color      : rgba(255, 255, 255, 0.65);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   5. CARD
+───────────────────────────────────────────────────────────── */
+.card {
+  background   : var(--bg-card);
+  border-radius: var(--radius-card);
+  padding      : var(--card-padding);
+  box-shadow   : var(--shadow-card);
+  transition   : background 0.35s ease, box-shadow 0.35s ease;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   6. BUTTONS
+───────────────────────────────────────────────────────────── */
+.btn {
+  display      : inline-flex;
+  align-items  : center;
+  justify-content: center;
+  gap          : 0.4rem;
+  padding      : 0.55rem 1.2rem;
+  border       : none;
+  border-radius: var(--radius-btn);
+  font-size    : 0.9rem;
+  font-weight  : 600;
+  transition   : background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+  white-space  : nowrap;
+}
+
+.btn:active {
+  transform: scale(0.96);
+}
+
+/* Primary — purple filled */
+.btn-primary {
+  background : var(--accent);
+  color      : var(--text-on-accent);
+  box-shadow : var(--shadow-btn);
+}
+
+.btn-primary:hover {
+  background: var(--accent-hover);
+}
+
+/* Secondary — light grey */
+.btn-secondary {
+  background: var(--secondary);
+  color     : var(--text-primary);
+}
+
+.btn-secondary:hover {
+  background: var(--secondary-hover);
+}
+
+/* Ghost — transparent with border */
+.btn-ghost {
+  background   : transparent;
+  color        : var(--text-secondary);
+  border       : 1.5px solid var(--border);
+}
+
+.btn-ghost:hover {
+  background: var(--secondary);
+  color     : var(--text-primary);
+}
+
+/* Danger — for delete actions */
+.btn-danger {
+  background: #fff0f0;
+  color     : #d63031;
+  border    : 1.5px solid #ffd5d5;
+}
+
+.btn-danger:hover {
+  background: #ffd5d5;
+}
+
+/* Theme toggle in header */
+.btn-theme-toggle {
+  background   : rgba(255, 255, 255, 0.18);
+  color        : #fff;
+  border       : 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--radius-pill);
+  padding      : 0.4rem 1rem;
+  font-size    : 0.82rem;
+  font-weight  : 600;
+  transition   : background 0.2s ease;
+}
+
+.btn-theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   7. INPUTS
+───────────────────────────────────────────────────────────── */
+.input-field {
+  flex          : 1;
+  padding       : 0.6rem 0.9rem;
+  border        : 1.5px solid var(--border);
+  border-radius : var(--radius-input);
+  background    : var(--bg-input);
+  color         : var(--text-primary);
+  font-size     : 0.9rem;
+  outline       : none;
+  transition    : border-color 0.2s ease, background 0.2s ease;
+  min-width     : 0; /* prevents overflow in flex containers */
+}
+
+.input-field::placeholder {
+  color: var(--text-muted);
+}
+
+.input-field:focus {
+  border-color: var(--border-focus);
+  background  : #fff;
+}
+
+/* Row that holds input(s) + a button side by side */
+.input-row {
+  display: flex;
+  gap    : 0.6rem;
+  align-items: center;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   8. SECTION · GREETING
+───────────────────────────────────────────────────────────── */
+.greeting-section {
+  display        : flex;
+  flex-wrap      : wrap;
+  align-items    : center;
+  justify-content: space-between;
+  gap            : 1.5rem;
+}
+
+.greeting-time-block {
+  flex: 1 1 260px;
+}
+
+.greeting-text {
+  font-size  : 0.9rem;
+  font-weight: 600;
+  color      : var(--accent);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.greeting-name {
+  font-size  : 1.9rem;
+  font-weight: 800;
+  color      : var(--text-primary);
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+
+.greeting-clock {
+  font-size  : 2.8rem;
+  font-weight: 800;
+  color      : var(--accent);
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin-bottom: 0.25rem;
+}
+
+.greeting-date {
+  font-size: 0.95rem;
+  color    : var(--text-secondary);
+}
+
+.greeting-name-form {
+  flex: 0 1 300px;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   9. SECTION · FOCUS TIMER
+───────────────────────────────────────────────────────────── */
+.timer-section {
+  display        : flex;
+  flex-direction : column;
+  align-items    : center;
+  text-align     : center;
+  gap            : 1.1rem;
+}
+
+.timer-display {
+  font-size       : var(--timer-size);
+  font-weight     : 800;
+  color           : var(--accent);
+  letter-spacing  : 0.04em;
+  font-variant-numeric: tabular-nums;
+  line-height     : 1;
+  /* subtle ring behind the number */
+  background      : var(--accent-light);
+  border-radius   : 50%;
+  width           : 11rem;
+  height          : 11rem;
+  display         : flex;
+  align-items     : center;
+  justify-content : center;
+  box-shadow      : 0 0 0 6px rgba(106, 17, 203, 0.08);
+  transition      : background 0.35s ease;
+}
+
+.timer-controls {
+  display: flex;
+  gap    : 0.6rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   10. SECTION · TO-DO LIST
+───────────────────────────────────────────────────────────── */
+.duplicate-warning {
+  font-size   : 0.82rem;
+  color       : #d63031;
+  margin-top  : 0.5rem;
+  font-weight : 600;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.todo-list {
+  margin-top: 1rem;
+  display   : flex;
+  flex-direction: column;
+  gap       : 0.5rem;
+}
+
+/* Individual task item */
+.todo-item {
+  display      : flex;
+  align-items  : center;
+  gap          : 0.6rem;
+  padding      : 0.65rem 0.8rem;
+  background   : var(--bg-todo-item);
+  border       : 1.5px solid var(--border);
+  border-radius: var(--radius-btn);
+  transition   : background 0.2s ease, border-color 0.2s ease;
+}
+
+.todo-item:hover {
+  border-color: var(--accent);
+}
+
+.todo-item.completed {
+  background: var(--bg-todo-done);
+}
+
+.todo-item.completed .todo-text {
+  text-decoration: line-through;
+  color          : var(--text-muted);
+}
+
+/* Custom checkbox */
+.todo-checkbox {
+  appearance   : none;
+  -webkit-appearance: none;
+  width        : 1.15rem;
+  height       : 1.15rem;
+  border       : 2px solid var(--accent);
+  border-radius: 5px;
+  flex-shrink  : 0;
+  cursor       : pointer;
+  position     : relative;
+  transition   : background 0.15s ease;
+}
+
+.todo-checkbox:checked {
+  background: var(--accent);
+}
+
+.todo-checkbox:checked::after {
+  content  : '✓';
+  position : absolute;
+  top      : 50%;
+  left     : 50%;
+  transform: translate(-50%, -50%);
+  color    : #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.todo-text {
+  flex      : 1;
+  font-size : 0.9rem;
+  color     : var(--text-primary);
+  word-break: break-word;
+}
+
+/* Hidden edit input inside a task item */
+.todo-edit-input {
+  flex         : 1;
+  padding      : 0.2rem 0.5rem;
+  border       : 1.5px solid var(--border-focus);
+  border-radius: 6px;
+  background   : #fff;
+  color        : var(--text-primary);
+  font-size    : 0.9rem;
+  outline      : none;
+}
+
+.todo-item-actions {
+  display: flex;
+  gap    : 0.35rem;
+}
+
+/* Small action buttons inside tasks */
+.todo-item-actions .btn {
+  padding  : 0.3rem 0.6rem;
+  font-size: 0.75rem;
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   11. SECTION · QUICK LINKS
+───────────────────────────────────────────────────────────── */
+.links-form {
+  display       : flex;
+  flex-direction: column;
+  gap           : 0.6rem;
+  margin-bottom : 1rem;
+}
+
+.links-add-btn {
+  align-self: flex-start;
+}
+
+.links-list {
+  display  : flex;
+  flex-wrap: wrap;
+  gap      : 0.6rem;
+}
+
+/* Each saved link chip */
+.link-item {
+  display      : flex;
+  align-items  : center;
+  gap          : 0.5rem;
+  padding      : 0.45rem 0.85rem;
+  background   : var(--accent-light);
+  border       : 1.5px solid rgba(106, 17, 203, 0.18);
+  border-radius: var(--radius-pill);
+  font-size    : 0.85rem;
+  transition   : background 0.2s ease, transform 0.1s ease;
+}
+
+.link-item:hover {
+  background: rgba(106, 17, 203, 0.14);
+  transform : translateY(-1px);
+}
+
+.link-item a {
+  color      : var(--accent);
+  font-weight: 600;
+  max-width  : 180px;
+  overflow   : hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link-item .btn-danger {
+  padding      : 0.2rem 0.5rem;
+  font-size    : 0.72rem;
+  border-radius: var(--radius-pill);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   12. DARK MODE OVERRIDES
+   Applied when <body> has class "dark-mode"
+───────────────────────────────────────────────────────────── */
+body.dark-mode {
+  --bg-page        : linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+  --bg-card        : #1e1e2e;
+  --bg-input       : #2a2a3e;
+  --bg-todo-item   : #252535;
+  --bg-todo-done   : #1e1e32;
+
+  --text-primary   : #e8e8f5;
+  --text-secondary : #a0a0c0;
+  --text-muted     : #606080;
+
+  --accent         : #a78bfa;
+  --accent-hover   : #9168f8;
+  --accent-light   : rgba(167, 139, 250, 0.12);
+
+  --secondary      : #2e2e45;
+  --secondary-hover: #3a3a55;
+
+  --border         : #35354f;
+  --border-focus   : #a78bfa;
+
+  --shadow-card    : 0 4px 24px rgba(0, 0, 0, 0.35);
+  --shadow-btn     : 0 2px 8px  rgba(0, 0, 0, 0.30);
+}
+
+body.dark-mode .input-field:focus {
+  background: #2f2f46;
+}
+
+body.dark-mode .todo-edit-input {
+  background: #2f2f46;
+}
+
+body.dark-mode .btn-danger {
+  background: rgba(214, 48, 49, 0.15);
+  border-color: rgba(214, 48, 49, 0.30);
+  color: #ff7675;
+}
+
+body.dark-mode .btn-danger:hover {
+  background: rgba(214, 48, 49, 0.28);
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   13. RESPONSIVE
+───────────────────────────────────────────────────────────── */
+
+/* Desktop & wide tablet: two-column middle row */
+@media (min-width: 720px) {
+  .dashboard {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Greeting spans both columns */
+  .greeting-section {
+    grid-column: 1 / -1;
+  }
+
+  /* Timer and To-Do each take one column */
+  .timer-section {
+    grid-column: 1 / 2;
+  }
+
+  .todo-section {
+    grid-column: 2 / 3;
+  }
+
+  /* Quick Links spans both columns */
+  .links-section {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Tablet adjustments */
+@media (max-width: 860px) {
+  .greeting-clock {
+    font-size: 2.2rem;
+  }
+
+  .greeting-name {
+    font-size: 1.5rem;
+  }
+}
+
+/* Mobile: single column */
+@media (max-width: 719px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    padding: 1rem 1rem 2.5rem;
+  }
+
+  .greeting-section,
+  .timer-section,
+  .todo-section,
+  .links-section {
+    grid-column: 1 / -1;
+  }
+
+  .timer-display {
+    font-size: 5rem;
+    width    : 9rem;
+    height   : 9rem;
+  }
+
+  .greeting-clock {
+    font-size: 2rem;
+  }
+
+  .greeting-name {
+    font-size: 1.3rem;
+  }
+
+  .input-row {
+    flex-wrap: wrap;
+  }
+
+  .input-row .input-field {
+    min-width: 100%;
+  }
+
+  .links-form .input-row {
+    flex-direction: column;
+  }
+
+  .links-form .input-row .input-field {
+    min-width: unset;
+    width    : 100%;
+  }
+
+  .site-header {
+    padding: 0.75rem 1rem;
+  }
+
+  .header-title {
+    font-size: 0.95rem;
+  }
+}
